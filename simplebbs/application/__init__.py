@@ -1,0 +1,1 @@
+from simplebbs.application import *

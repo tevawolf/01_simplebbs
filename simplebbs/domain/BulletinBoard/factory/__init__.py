@@ -1,0 +1,1 @@
+from simplebbs.domain.BulletinBoard.factory.BulletinFactory import BulletinFactory
