@@ -1,1 +1,1 @@
-web:gunicorn simplebbs.app:app
+web:gunicorn simplebbs.app:app --log-file=-
