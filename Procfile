@@ -1,1 +1,1 @@
-web:gunicorn simplebbs.app:app --log-file=-
+web: python server.py
