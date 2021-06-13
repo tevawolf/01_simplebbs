@@ -1,0 +1,1 @@
+web:gunicorn simplebbs.app:app
