@@ -1,12 +1,12 @@
-from simplebbs.infrastructure.datasoruce.sqlite_db import get_sqlite
+from simplebbs.infrastructure.datasoruce.postgresql_db import get_postgres
 from simplebbs.infrastructure.repository.BulletinBoardRepository import BulletinBoardRepository
 
 
-class BulletinBoardDataSourceSQLite(BulletinBoardRepository):
+class BulletinBoardDataSourcePostgreSQL(BulletinBoardRepository):
 
     def queryBulletinList(self) -> []:
 
-        conn = get_sqlite()
+        conn = get_postgres()
         c = conn.cursor()
         c.execute('SELECT * FROM bulletins ORDER BY bulletin_no DESC')
         rows = c.fetchall()

@@ -1,15 +1,15 @@
 from datetime import datetime
 
-from simplebbs.infrastructure.datasoruce.sqlite_db import get_sqlite
+from simplebbs.infrastructure.datasoruce.postgresql_db import get_postgres
 from simplebbs.infrastructure.repository.BulletinRepository import BulletinRepository
 
 
-class BulletinDataSourceSQLite(BulletinRepository):
+class BulletinDataSourcePostgreSQL(BulletinRepository):
 
     def addBulletin(self, name: str, dt: datetime, text: str) -> bool:
 
         # DB接続、SQL実行とコミット
-        conn = get_sqlite()
+        conn = get_postgres()
         c = conn.cursor()
 
         c.execute("""SELECT MAX(bulletin_no) FROM bulletins""")
