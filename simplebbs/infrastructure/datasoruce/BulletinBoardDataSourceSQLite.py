@@ -12,7 +12,7 @@ class BulletinBoardDataSourceSQLite(BulletinBoardRepository):
         rows = c.fetchall()
         bulletin_list = []
         for row in rows:
-            bulletin_list.append([row[0], row[1], row[2], row[3]])
+            bulletin_list.append([row[0], row[1], row[2], row[4], row[3]])
         c.close()
 
         return bulletin_list

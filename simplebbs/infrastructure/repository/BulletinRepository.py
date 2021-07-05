@@ -4,13 +4,14 @@ from datetime import datetime
 
 class BulletinRepository(metaclass=ABCMeta):
     """
-    @RepositoryInterface リポジトリインターフェース
+    @RepositoryInterface
     """
 
     @abstractmethod
-    def addBulletin(self, name: str, dt: datetime, text: str) -> bool:
+    def addBulletin(self, name: str, dt: datetime, title: str, text: str) -> bool:
         """
         Bulletinを永続化するメソッド
+        :param title:
         :param text:
         :param dt:
         :param name:

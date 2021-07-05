@@ -1,5 +1,6 @@
 from injector import inject
 
+from simplebbs.domain.BulletinBoard.value.PostTitle import PostTitle
 from simplebbs.infrastructure.repository import BulletinRepository
 from simplebbs.domain.BulletinBoard.value import PostText
 from simplebbs.domain.BulletinBoard.value.BulletinNo import BulletinNo
@@ -9,10 +10,8 @@ from simplebbs.domain.BulletinBoard.value.PosterName import PosterName
 
 class Bulletin:
     """
-    @DomainObject ドメインオブジェクト
-    掲示物
-    @EntityObject エンティティオブジェクト
-    一意性のある掲示物を表す
+    @DomainObject 掲示物
+    @EntityObject （一意性のある）掲示物を表す
     """
 
     @inject
@@ -21,12 +20,14 @@ class Bulletin:
         self.bulletinNo = None
         self.posterName = None
         self.postDateTime = None
+        self.postTitle = None
         self.postText = None
 
-    def setValues(self, no: BulletinNo, name: PosterName, dt: PostDateTime, text: PostText):
+    def setValues(self, no: BulletinNo, name: PosterName, dt: PostDateTime, title: PostTitle, text: PostText):
         self.bulletinNo = no
         self.posterName = name
         self.postDateTime = dt
+        self.postTitle = title
         self.postText = text
 
     def createBulletin(self) -> None:
@@ -38,5 +39,6 @@ class Bulletin:
         self.repository.addBulletin(
             self.posterName.getValue(),
             self.postDateTime.getValue(),
+            self.postTitle.getValue(),
             self.postText.getValue()
         )

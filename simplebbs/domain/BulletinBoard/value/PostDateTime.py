@@ -14,3 +14,6 @@ class PostDateTime:
 
     def getValue(self) -> datetime:
         return copy.deepcopy(self.dt)
+
+    def getFormatValue(self) -> str:
+        return self.dt.strftime('%Y/%m/%d %H:%M:%S')

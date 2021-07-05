@@ -9,10 +9,8 @@ from simplebbs.domain.BulletinBoard.object.BulletinBoard import BulletinBoard
 
 class BulletinBoardService:
     """
-
     初期起動表示
     投稿
-    再表示
     """
 
     @staticmethod
@@ -21,9 +19,8 @@ class BulletinBoardService:
         bulletin_board = injector.get(BulletinBoard)
         return bulletin_board
 
-
     @staticmethod
-    def postBulletin(name: str, dt: datetime, text: str):
+    def postBulletin(name: str, dt: datetime, title, text: str):
 
-        bulletin = BulletinFactory.create(9999, name, dt, text)
+        bulletin = BulletinFactory.create(9999, name, dt, title, text)
         bulletin.createBulletin()
