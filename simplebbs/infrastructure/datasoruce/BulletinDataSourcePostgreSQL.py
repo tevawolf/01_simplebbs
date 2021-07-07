@@ -6,20 +6,20 @@ from simplebbs.infrastructure.repository.BulletinRepository import BulletinRepos
 
 class BulletinDataSourcePostgreSQL(BulletinRepository):
 
-    def addBulletin(self, name: str, dt: datetime, title: str, text: str) -> bool:
+    def addBulletin(self, name: str, dt: datetime, title: str, text: str, thread_no: int) -> bool:
 
         # DB接続、SQL実行とコミット
         conn = get_postgres()
         c = conn.cursor()
 
-        c.execute("""SELECT MAX(bulletin_no) FROM bulletins""")
+        c.execute("""SELECT MAX(bulletin_no) FROM bulletins WHERE thread_no = {0}""".format(thread_no))
         no = c.fetchone()[0] + 1
 
         # textの改行コードに対応
         text = text.replace('\r\n', '<br>')
 
-        c.execute("""INSERT INTO bulletins(bulletin_no, poster_name, post_datetime, post_text, post_title)
-                    VALUES ({0}, '{1}', '{2}', '{3}', '{4}')""".format(no, name, dt, text, title))
+        c.execute("""INSERT INTO bulletins(bulletin_no, poster_name, post_datetime, post_text, post_title, thread_no)
+                    VALUES ({0}, '{1}', '{2}', '{3}', '{4}', '{5}')""".format(no, name, dt, text, title, thread_no))
         conn.commit()
 
         c.close()

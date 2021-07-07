@@ -14,4 +14,4 @@ class InitView(MethodView):
         # bulletinBoardをセッション保持する
         # session['bulletinBoard'] = bulletin_board
 
-        return render_template('bulletinBoard.html', bulletin_board=bulletin_board.postAllBulletins())
+        return render_template('bulletinBoard.html', bulletin_board=bulletin_board.postAllThreads())

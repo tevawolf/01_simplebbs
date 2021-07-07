@@ -4,15 +4,15 @@ from simplebbs.infrastructure.repository.BulletinBoardRepository import Bulletin
 
 class BulletinBoardDataSourcePostgreSQL(BulletinBoardRepository):
 
-    def queryBulletinList(self) -> []:
+    def queryThreadList(self) -> []:
 
         conn = get_postgres()
         c = conn.cursor()
-        c.execute('SELECT * FROM bulletins ORDER BY bulletin_no DESC')
+        c.execute('SELECT * FROM threads ORDER BY thread_no DESC')
         rows = c.fetchall()
-        bulletin_list = []
+        thread_list = []
         for row in rows:
-            bulletin_list.append([row[0], row[1], row[2], row[4], row[3]])
+            thread_list.append([row[0], row[1]])
         c.close()
 
-        return bulletin_list
+        return thread_list

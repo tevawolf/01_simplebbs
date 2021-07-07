@@ -7,9 +7,9 @@ class BulletinBoardRepository(metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def queryBulletinList(self) -> []:
+    def queryThreadList(self) -> []:
         """
-        Bulletinのリストを返すクエリ―メソッド
-        :return: Bulletinのリスト
+        BulletinBoardThreadのリストを返すクエリ―メソッド
+        :return: BulletinBoardThreadのリスト
         """
         return []

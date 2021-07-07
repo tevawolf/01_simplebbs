@@ -1,6 +1,7 @@
 from injector import inject
 
 from simplebbs.domain.BulletinBoard.value.PostTitle import PostTitle
+from simplebbs.domain.BulletinBoard.value.ThreadNo import ThreadNo
 from simplebbs.infrastructure.repository import BulletinRepository
 from simplebbs.domain.BulletinBoard.value import PostText
 from simplebbs.domain.BulletinBoard.value.BulletinNo import BulletinNo
@@ -22,13 +23,15 @@ class Bulletin:
         self.postDateTime = None
         self.postTitle = None
         self.postText = None
+        self.thread_no = None
 
-    def setValues(self, no: BulletinNo, name: PosterName, dt: PostDateTime, title: PostTitle, text: PostText):
+    def setValues(self, no: BulletinNo, name: PosterName, dt: PostDateTime, title: PostTitle, text: PostText, thread_no: ThreadNo):
         self.bulletinNo = no
         self.posterName = name
         self.postDateTime = dt
         self.postTitle = title
         self.postText = text
+        self.thread_no = thread_no
 
     def createBulletin(self) -> None:
         """
@@ -40,5 +43,6 @@ class Bulletin:
             self.posterName.getValue(),
             self.postDateTime.getValue(),
             self.postTitle.getValue(),
-            self.postText.getValue()
+            self.postText.getValue(),
+            self.thread_no.getValue()
         )

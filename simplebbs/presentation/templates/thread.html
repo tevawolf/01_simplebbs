@@ -1,28 +1,39 @@
 {% extends "layout.html" %}
 {% block body %}
-<!-- スレッドリスト表示 -->
-<h2>スレッド一覧</h2>
+<a href="{{ url_for('init') }}">スレッド一覧に戻る</a>
+<h2>スレッドNo.{{ thread.thread_no.getValue() }} {{ thread.thread_name.getValue() }}</h2>
+<!-- 投稿リスト表示 -->
 <ul class="list-group list-group-flush">
-{% for thread in bulletin_board %}
+{% for bulletin in thread.postAllBulletins() %}
     <div class="card">
         <div class="card-body">
-          <a href="{{ url_for('thread', no=thread.thread_no.getValue(), name=thread.thread_name.getValue()) }}">
-              No.{{ thread.thread_no.getValue() }} {{ thread.thread_name.getValue() }}
-          </a>
+          <h2>No.{{ bulletin.bulletinNo.getValue() }} {{ bulletin.postTitle.getValue() }}</h2>
+          <br>
+          {{ bulletin.postText.getValue()|safe }}
+          <br><br>
+          投稿日時 {{ bulletin.postDateTime.getFormatValue() }} 投稿者 {{ bulletin.posterName.getValue() }}
+          <br><br>
         </div>
     </div>
 {# for文のelseは、forが1回以上実行された場合、forループ完了後に実行される #}
 {% else %}
-    スレッドがありません
+    投稿がありません
 {% endfor %}
 </ul>
-<!-- スレッド作成フォーム -->
-<form action="{{ url_for('create_thread') }}" method=post class="add-entry">
+<a href="{{ url_for('init') }}">スレッド一覧に戻る</a>
+<!-- 投稿フォーム -->
+<form action="{{ url_for('bulletin_add') }}" method=post class="add-entry">
     <div class="form-group">
         <label for="InputTitle">タイトル</label>
         <input type="text" class="form-control" id="InputTitle" name="title">
     </div>
+    <div class="form-group">
+        <label for="InputText">本文</label>
+        <textarea class="form-control" id="InputText" name="text" rows="3"></textarea>
+    </div>
     <button type="submit" class="btn btn-primary">作成</button>
+    <input type="hidden" name="thread_no" value="{{ thread.thread_no.getValue() }}">
+    <input type="hidden" name="thread_name" value="{{ thread.thread_name.getValue() }}">
 </form>
 <!-- サイン関連フォーム -->
 {% if session.__len__() == 0 %}
@@ -58,4 +69,5 @@
     </div>
     <button type="submit" class="btn btn-primary">サインアップ</button>
 </form>
+<a href="{{ url_for('init') }}">スレッド一覧に戻る</a>
 {% endblock %}

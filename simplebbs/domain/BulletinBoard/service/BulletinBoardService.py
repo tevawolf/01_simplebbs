@@ -1,16 +1,14 @@
-from datetime import datetime
-
 from injector import Injector
 
 from simplebbs.binds import BulletinBoardDIModule
-from simplebbs.domain.BulletinBoard.factory import BulletinFactory
+from simplebbs.domain.BulletinBoard.factory.BulletinBoardThreadFactory import BulletinBoardThreadFactory
 from simplebbs.domain.BulletinBoard.object.BulletinBoard import BulletinBoard
 
 
 class BulletinBoardService:
     """
     初期起動表示
-    投稿
+    スレッド作成
     """
 
     @staticmethod
@@ -20,7 +18,6 @@ class BulletinBoardService:
         return bulletin_board
 
     @staticmethod
-    def postBulletin(name: str, dt: datetime, title, text: str):
-
-        bulletin = BulletinFactory.create(9999, name, dt, title, text)
-        bulletin.createBulletin()
+    def createThread(name: str) -> None:
+        thread = BulletinBoardThreadFactory.create(9999, name)
+        thread.createThread()
