@@ -24,7 +24,11 @@ class BulletinBoardThreadDataSourcePostgreSQL(BulletinBoardThreadRepository):
         c = conn.cursor()
 
         c.execute("""SELECT MAX(thread_no) FROM threads""")
-        no = c.fetchone()[0] + 1
+        no = c.fetchone()[0]
+        if not (no is None):
+            no = no + 1
+        else:
+            no = 1
 
         c.execute("""INSERT INTO threads(thread_no, thread_name)
                     VALUES ({0}, '{1}')""".format(no, name))

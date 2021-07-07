@@ -13,7 +13,11 @@ class BulletinDataSourcePostgreSQL(BulletinRepository):
         c = conn.cursor()
 
         c.execute("""SELECT MAX(bulletin_no) FROM bulletins WHERE thread_no = {0}""".format(thread_no))
-        no = c.fetchone()[0] + 1
+        no = c.fetchone()[0]
+        if not (no is None):
+            no = no + 1
+        else:
+            no = 1
 
         # textの改行コードに対応
         text = text.replace('\r\n', '<br>')
