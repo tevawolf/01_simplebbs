@@ -7,14 +7,16 @@ from simplebbs.domain.BulletinBoard.service.BulletinBoardThreadService import Bu
 
 
 class AddView(MethodView):
+    """
+    スレッド投稿View
+    """
 
     @staticmethod
     def post():
 
         thread_no = int(request.form['thread_no'])
-        thread_name = request.form['thread_name']
 
-        if session.__len__() != 0:
+        if 'poster_name' in session:
             BulletinBoardThreadService.postBulletin(
                 session['poster_name'], datetime.datetime.now(), request.form['title'], request.form['text'], thread_no)
         else:
@@ -23,4 +25,4 @@ class AddView(MethodView):
 
         flash('スレッドに投稿しました。')
 
-        return redirect(url_for('thread', no=thread_no, name=thread_name))
+        return redirect(url_for('thread', no=thread_no))

@@ -18,9 +18,9 @@ class PosterRepository(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def getPoster(self, poster_id: str) -> []:
+    def queryPoster(self, poster_id: str) -> []:
         """
-        Posterのデータを取得するメソッド
+        Posterのデータを取得するクエリ―メソッド
         :param poster_id:
         :return: Posterデータリスト
         """

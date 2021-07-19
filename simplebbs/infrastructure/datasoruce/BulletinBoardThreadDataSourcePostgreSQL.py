@@ -4,6 +4,20 @@ from simplebbs.infrastructure.repository.BulletinBoardThreadRepository import Bu
 
 class BulletinBoardThreadDataSourcePostgreSQL(BulletinBoardThreadRepository):
 
+    def queryThread(self, no: int) -> []:
+
+        conn = get_postgres()
+        c = conn.cursor()
+
+        c.execute("""SELECT * FROM threads WHERE thread_no = {0} """.format(no))
+        fetch = c.fetchone()
+        thread = []
+        thread.append(fetch[1])  # thread_name
+        thread.append(fetch[2])  # public_level
+        c.close()
+
+        return thread
+
     def queryBulletinList(self, no: int) -> []:
 
         conn = get_postgres()
@@ -17,9 +31,8 @@ class BulletinBoardThreadDataSourcePostgreSQL(BulletinBoardThreadRepository):
 
         return bulletin_list
 
-    def createThread(self, name: str) -> bool:
+    def createThread(self, name: str, level: int, password: str) -> bool:
 
-        # DB接続、SQL実行とコミット
         conn = get_postgres()
         c = conn.cursor()
 
@@ -30,9 +43,21 @@ class BulletinBoardThreadDataSourcePostgreSQL(BulletinBoardThreadRepository):
         else:
             no = 1
 
-        c.execute("""INSERT INTO threads(thread_no, thread_name)
-                    VALUES ({0}, '{1}')""".format(no, name))
+        # TODO 例外処理　NGならFalseを返す
+        c.execute("""INSERT INTO threads(thread_no, thread_name, public_level, thread_password)
+                    VALUES ({0}, '{1}', {2}, '{3}')""".format(no, name, str(level), password))
         conn.commit()
 
         c.close()
         return True
+
+    def queryThreadPassword(self, no: int) -> str:
+
+        conn = get_postgres()
+        c = conn.cursor()
+        c.execute('SELECT thread_password FROM threads WHERE thread_no = {0}'.format(no))
+        db_password = c.fetchone()[0]
+        if not (db_password is None):
+            return db_password
+        else:
+            return ''

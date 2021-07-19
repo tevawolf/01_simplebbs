@@ -6,6 +6,9 @@ from simplebbs.domain.BulletinBoard.service.PosterService import PosterService
 
 
 class SignUpView(MethodView):
+    """
+    サインアップView
+    """
 
     @staticmethod
     def post():

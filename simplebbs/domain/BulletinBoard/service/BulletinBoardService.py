@@ -18,6 +18,6 @@ class BulletinBoardService:
         return bulletin_board
 
     @staticmethod
-    def createThread(name: str) -> None:
-        thread = BulletinBoardThreadFactory.create(9999, name)
+    def createThread(name: str, level: str, password: str) -> None:
+        thread = BulletinBoardThreadFactory.create(9999, name, int(level), password)
         thread.createThread()

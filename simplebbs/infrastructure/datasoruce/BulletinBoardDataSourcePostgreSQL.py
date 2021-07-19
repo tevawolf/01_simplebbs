@@ -12,7 +12,7 @@ class BulletinBoardDataSourcePostgreSQL(BulletinBoardRepository):
         rows = c.fetchall()
         thread_list = []
         for row in rows:
-            thread_list.append([row[0], row[1]])
+            thread_list.append([row[0], row[1], row[2]])
         c.close()
 
         return thread_list

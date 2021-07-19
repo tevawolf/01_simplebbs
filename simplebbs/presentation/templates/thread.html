@@ -22,52 +22,100 @@
 </ul>
 <a href="{{ url_for('init') }}">スレッド一覧に戻る</a>
 <!-- 投稿フォーム -->
-<form action="{{ url_for('bulletin_add') }}" method=post class="add-entry">
-    <div class="form-group">
-        <label for="InputTitle">タイトル</label>
-        <input type="text" class="form-control" id="InputTitle" name="title">
+<!-- 公開レベルが閲覧のみの場合、パスワード入力前はパスワード入力フォームを表示する -->
+{% if thread.public_level == PUBLIC_LEVEL_READONLY and (session['thread_auth'] != True or session['thread_auth_no'] != thread.thread_no.getValue())  %}
+<div class="card">
+    <div class="card-body">
+        <form action="{{ url_for('thread_readonly_password') }}" method=post class="add-entry">
+            <div class="form-group">
+                <label for="ThreadPassword">パスワード</label>
+                <input type="text" class="form-control" id="ThreadPassword" name="thread_password">
+            </div>
+            <button type="submit" class="btn btn-primary">認証</button>
+            <input type="hidden" name="thread_no" value="{{ thread.thread_no.getValue() }}">
+        </form>
     </div>
-    <div class="form-group">
-        <label for="InputText">本文</label>
-        <textarea class="form-control" id="InputText" name="text" rows="3"></textarea>
+</div>
+{% elif thread.public_level == PUBLIC_LEVEL_READONLY and session['thread_auth'] == True and session['thread_auth_no'] == thread.thread_no.getValue() %}
+<div class="card">
+    <div class="card-body">
+        <form action="{{ url_for('bulletin_add') }}" method=post class="add-entry">
+            <div class="form-group">
+                <label for="InputTitleRO">タイトル</label>
+                <input type="text" class="form-control" id="InputTitleRO" name="title">
+            </div>
+            <div class="form-group">
+                <label for="InputTextRO">本文</label>
+                <textarea class="form-control" id="InputTextRO" name="text" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">作成</button>
+            <input type="hidden" name="thread_no" value="{{ thread.thread_no.getValue() }}">
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">作成</button>
-    <input type="hidden" name="thread_no" value="{{ thread.thread_no.getValue() }}">
-    <input type="hidden" name="thread_name" value="{{ thread.thread_name.getValue() }}">
-</form>
-<!-- サイン関連フォーム -->
-{% if session.__len__() == 0 %}
-<form action="{{ url_for('signin') }}" method=post class="signin">
-    <div class="form-group">
-        <label for="SignId">ID</label>
-        <input type="text" class="form-control" id="SignId" name="signInId">
+</div>
+{% elif thread.public_level != PUBLIC_LEVEL_READONLY %}
+<div class="card">
+    <div class="card-body">
+        <form action="{{ url_for('bulletin_add') }}" method=post class="add-entry">
+            <div class="form-group">
+                <label for="InputTitle">タイトル</label>
+                <input type="text" class="form-control" id="InputTitle" name="title">
+            </div>
+            <div class="form-group">
+                <label for="InputText">本文</label>
+                <textarea class="form-control" id="InputText" name="text" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">作成</button>
+            <input type="hidden" name="thread_no" value="{{ thread.thread_no.getValue() }}">
+        </form>
     </div>
-    <div class="form-group">
-        <label for="SignPassword">パスワード</label>
-        <input type="text" class="form-control" id="SignPassword" name="signInPassword">
-    </div>
-    <button type="submit" class="btn btn-primary">サインイン</button>
-</form>
-{% else %}
-<form action="{{ url_for('signout') }}" method=get class="signout">
-    ID:{{ session['poster_id'] }} 名前：{{ session['poster_name'] }}
-    <button type="submit" class="btn btn-primary">サインアウト</button>
-</form>
+</div>
 {% endif %}
-<form action="{{ url_for('signup') }}" method=post class="signup">
-    <div class="form-group">
-        <label for="InputId">ID</label>
-        <input type="text" class="form-control" id="InputId" name="posterId">
+<!-- サイン関連フォーム -->
+{% if not 'poster_name' in session %}
+<div class="card">
+    <div class="card-body">
+        <form action="{{ url_for('signin') }}" method=post class="signin">
+            <div class="form-group">
+                <label for="SignId">ID</label>
+                <input type="text" class="form-control" id="SignId" name="signInId">
+            </div>
+            <div class="form-group">
+                <label for="SignPassword">パスワード</label>
+                <input type="text" class="form-control" id="SignPassword" name="signInPassword">
+            </div>
+            <button type="submit" class="btn btn-primary">サインイン</button>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="InputName">名前</label>
-        <input type="text" class="form-control" id="InputName" name="posterName">
+</div>
+<div class="card">
+    <div class="card-body">
+        <form action="{{ url_for('signup') }}" method=post class="signup">
+            <div class="form-group">
+                <label for="InputId">ID</label>
+                <input type="text" class="form-control" id="InputId" name="posterId">
+            </div>
+            <div class="form-group">
+                <label for="InputName">名前</label>
+                <input type="text" class="form-control" id="InputName" name="posterName">
+            </div>
+            <div class="form-group">
+                <label for="InputPassword">パスワード</label>
+                <input type="text" class="form-control" id="InputPassword" name="posterPassword">
+            </div>
+            <button type="submit" class="btn btn-primary">サインアップ</button>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="InputPassword">パスワード</label>
-        <input type="text" class="form-control" id="InputPassword" name="posterPassword">
+</div>
+{% else %}
+<div class="card">
+    <div class="card-body">
+        <form action="{{ url_for('signout') }}" method=get class="signout">
+            ID:{{ session['poster_id'] }} 名前：{{ session['poster_name'] }}
+            <button type="submit" class="btn btn-primary">サインアウト</button>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">サインアップ</button>
-</form>
+</div>
+{% endif %}
 <a href="{{ url_for('init') }}">スレッド一覧に戻る</a>
 {% endblock %}

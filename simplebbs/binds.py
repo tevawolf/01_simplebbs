@@ -20,5 +20,6 @@ class BulletinBoardDIModule(Module):
         binder.bind(BulletinRepository, to=BulletinDataSourcePostgreSQL)
         # binder.bind(BulletinBoardRepository, to=BulletinBoardDataSourceSQLite)
         # binder.bind(BulletinRepository, to=BulletinDataSourceSQLite)
+
         binder.bind(PosterRepository, to=PosterDataSourcePostgreSQL)
         binder.bind(BulletinBoardThreadRepository, to=BulletinBoardThreadDataSourcePostgreSQL)

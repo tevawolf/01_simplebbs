@@ -4,6 +4,9 @@ from werkzeug.utils import redirect
 
 
 class SignOutView(MethodView):
+    """
+    サインアウトView
+    """
 
     @staticmethod
     def get():

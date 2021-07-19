@@ -53,7 +53,7 @@ class Poster:
         投稿者の認証
         :return:認証の成否
         """
-        poster = self.repository.getPoster(self.posterId.getValue())
+        poster = self.repository.queryPoster(self.posterId.getValue())
 
         # 暗号化されたパスワードをKEYで複合し、入力されたパスワード文字列と一致するかチェック
         if poster:

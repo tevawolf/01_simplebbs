@@ -6,16 +6,19 @@ from simplebbs.domain.BulletinBoard.service.PosterService import PosterService
 
 
 class SignInView(MethodView):
+    """
+    サインインView
+    """
 
     @staticmethod
     def post():
 
-        auth, posterName = PosterService.signIn(
+        auth, poster_name = PosterService.signIn(
             request.form['signInId'], request.form['signInPassword']
         )
         if auth:
             session['poster_id'] = request.form['signInId']
-            session['poster_name'] = posterName
+            session['poster_name'] = poster_name
             flash('ユーザ{0}でサインインしました。'.format(request.form['signInId']))
         else:
             flash('サインインできませんでした。')

@@ -20,7 +20,7 @@ class BulletinBoard:
         # こちらでクエリ発行して、まず全件保持しておく
         thread_list = r.queryThreadList()
         for b in thread_list:
-            thread = BulletinBoardThreadFactory.create(b[0], b[1])
+            thread = BulletinBoardThreadFactory.create(b[0], b[1], b[2], '')
             self.threads.append(thread)
 
     def postAllThreads(self) -> [BulletinBoardThread]:

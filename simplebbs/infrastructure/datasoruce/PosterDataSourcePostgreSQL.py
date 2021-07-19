@@ -21,7 +21,7 @@ class PosterDataSourcePostgreSQL(PosterRepository):
         c.close()
         return True
 
-    def getPoster(self, poster_id: str) -> []:
+    def queryPoster(self, poster_id: str) -> []:
 
         poster = []
 
